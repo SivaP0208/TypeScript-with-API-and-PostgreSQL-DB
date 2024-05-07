@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Card Management</title>
+    <link rel="stylesheet" href="CSS/stylesheet.css">
+</head>
+
+<body>
+    <div id="indexPage">
+        <h1>Metro Card Management</h1>
+        <button onclick="signUpPage()">Sign Up</button>&nbsp;&nbsp;<button onclick="loginPage()">Login</button>
+    </div>
+    <div id="signUpPage">
+        <h1>Sign Up</h1>
+        <form onsubmit="return false" id="signUpForm" action="">
+        <table>
+            <tr>
+                <th><label for="newUserName">Name</label></th>
+                <td><input type="text" name="newUserName" id="newUserName" onkeyup="checkUserName('newUserName')"><label
+                        for="newUserName" id="newUserNameMessage"></label></td>
+            </tr>
+            <tr>
+                <th><label for="newUserEmail">Email</label></th>
+                <td><input type="text" name="newUserEmail" id="newUserEmail"
+                        onkeyup="checkUserEmail('newUserEmail')"><label for="newUserEmail"
+                        id="newUserEmailMessage"></label></td>
+            </tr>
+            <tr>
+                <th><label for="newUserPhone">Phone Number</label></th>
+                <td><input type="text" name="newUserPhone" id="newUserPhone"
+                        onkeyup="checkUserPhone('newUserPhone')"><label for="newUserPhone"
+                        id="newUserPhoneMessage"></label></td>
+            </tr>
+            <tr>
+                <th><label for="newUserPassword">Password</label></th>
+                <td><input type="text" name="newUserPassword" id="newUserPassword"
+                        onkeyup="checkUserPassword('newUserPassword')"><label for="newUserPassword"
+                        id="newUserPasswordMessage"></label></td>
+            </tr>
+            <tr>
+                <th><label for="confirmPassword">Confirm Password</label></th>
+                <td><input type="password" name="confirmPassword" id="confirmPassword"
+                        onkeyup="confirmPassword('confirmPassword')"><label for="confirmPassword"
+                        id="confirmPasswordMessage"></label></td>
+            </tr>
+            <tr>
+                <td><button onclick="indexPage()">Back</button></td>
+                <td><button onclick="signUp()">Sign Up</button></td>
+            </tr>
+        </table>
+    </form>
+    </div>
+    <div id="loginPage">
+        <h1>Login</h1>
+        <form onsubmit="return false" id="loginForm" action="">
+        <table>
+            <tr>
+                <th><label for="userMail">Email</label></th>
+                <td><input type="text" name="userMail" id="userMail" onkeyup="checkUserEmail('userMail')"><label
+                        for="userMail" id="userMailMessage"></label></td>
+            </tr>
+            <tr>
+                <th><label for="userPassword">Password</label></th>
+                <td><input type="password" name="userPassword" id="userPassword"><label for="userPassword"
+                        id="userPasswordMessage"></label></td>
+            </tr>
+            <tr>
+                <td><button onclick="indexPage()">Back</button></td>
+                <td><button onclick="login()">Login</button></td>
+            </tr>
+        </table>
+    </form>
+    </div>
+    <div id="homePage">
+        <button onclick="welcomePage()">Home</button>
+        <button onclick="ticketFairPage()">Ticket Fair Details</button>
+        <button onclick="travelPage()">Book Ticket</button>
+        <button onclick="cancelPage()">Cancel Ticket</button>
+        <button onclick="travelHistoryPage()">Travel History</button>
+        <button onclick="walletRechargePage()">Wallet Recharge</button>
+        <button onclick="showBalancePage()">Show Balance</button>
+        <button onclick="indexPage()">Log out</button>
+    </div>
+    <div id="welcomePage">
+        <h1 id="greet"></h1>
+    </div>
+    <div id="ticketFairPage">
+        <h1>Ticket Fair Details</h1>
+        <section id="editDiv">
+            <form onsubmit="return false" action="" id="editForm">
+                <label for="fromLocation">To Add or Edit Tickets Please fill out this</label><br>
+                <label for="fromLocation">From Location</label>&nbsp;&nbsp;&nbsp;
+                <input type="text" name="fromLocation" id="fromLocation" placeholder="Enter From location">&nbsp;&nbsp;
+                <label for="toLocation">To Location</label>&nbsp;&nbsp;&nbsp;
+                <input type="text" name="toLocation" id="toLocation" placeholder="Enter To location">&nbsp;&nbsp;
+                <label for="fair">Fair</label>&nbsp;&nbsp;&nbsp;
+                <input type="text" name="fair" id="fair" placeholder="Enter Fair"><br>
+                <section id="editButton"></section>
+            </form>
+        </section>
+        <section id="ticketTable"></section>
+    </div>
+    <div id="travelPage"></div>
+    <div id="cancelPage"></div>
+    <div id="travelHistoryPage"></div>
+    <div id="walletRechargePage">
+        <form onsubmit="return false" action="" id="rechargeForm">
+            <label for="amount">Enter the amount to Recharge</label>&nbsp;&nbsp;
+            <input type="text" name="amount" id="amount" placeholder="Enter the Amount"><br>
+            <button onclick="recharge()">Recharge</button>
+        </form>
+        <div id="rechargeMessage"></div>
+    </div>
+    <div id="showBalancePage">
+        <h1 id="balanceMessage"></h1>
+    </div>
+    <script src="JS/metroCard.js"></script>
+</body>
+
+</html>

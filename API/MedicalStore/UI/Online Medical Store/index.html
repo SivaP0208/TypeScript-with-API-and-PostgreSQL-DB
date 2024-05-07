@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="CSS/stylesheet.css">
+</head>
+
+<body>
+    <div id="page">
+        <div id="home">
+            <div>
+                <h1>Online Medical Store</h1>
+                <button onclick="SignUpPage()">Sign up</button>
+                <button onclick="SignInPage()">Sign in</button>
+            </div>
+        </div>
+        <div id="signup">
+            <h2>Sign Up</h2>
+            <div id="signupDatas">
+                <form onsubmit="return false" id="signUpForm" action="">
+                    <label for="userName">UserName</label>&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="userName" id="userName" onkeyup="CheckNewUserName('userName')">
+                    &nbsp;&nbsp;<label for="userName" id="userNameMessage"></label><br><br>
+                    <label for="signupEmail">Email</label>&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="email" id="signupEmail"
+                        onkeyup="CheckNewUserEmail('signupEmail')">&nbsp;&nbsp;<label for="signupEmail"
+                        id="signupEmailMessage"></label><br><br>
+                    <label for="signupPassword">Password</label>&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="password" id="signupPassword"
+                        onkeyup="CheckNewUserPassword('signupPassword')">&nbsp;&nbsp;<label for="signupPassword"
+                        id="signupPasswordMessage"></label><br><br>
+                    <label for="signupConfirmPassword">Confirm Password</label>&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="confirmPassword" id="signupConfirmPassword"
+                        onkeyup="CheckNewUserConfirmPassword('signupConfirmPassword')">&nbsp;&nbsp;<label
+                        for="signupConfirmPassword" id="signupConfirmPasswordMessage"></label><br><br>
+                    <button type="submit" onclick="SignUp()">Sign Up</button>
+                    <button type="submit" onclick="Back('signup')">Back</button>
+                </form>
+            </div>
+        </div>
+        <div id="signin">
+            <h2>Sign In</h2>
+            <div id="signinDatas">
+                <form onsubmit="return false" id="signinForm" action="">
+                    <label for="signinEmail">Email</label>&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="email" id="signinEmail"
+                        onkeyup="CheckNewUserEmail('signinEmail')">&nbsp;&nbsp;<label for="signinEmail"
+                        id="signinEmailMessage"></label><br><br>
+                    <label for="signinPassword">Password</label>&nbsp;&nbsp;&nbsp;
+                    <input type="password" name="password" id="signinPassword"
+                        onkeyup="CheckNewUserPassword('signinPassword')">&nbsp;&nbsp;<label for="signinPassword"
+                        id="signinPasswordMessage"></label><br><br>
+                    <button type="submit" onclick="SignIn()">Sign in</button>
+                    <button type="submit" onclick="Back('signin')">Back</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="homePage">
+        <div id="loggedIn">
+            <div id="topNavBar">
+                <form onsubmit="return false" action="">
+                    <button onclick="WelcomePage()">Home</button>
+                    <button onclick="MedicineDetails()">Medicine Details</button>
+                    <button onclick="PurchasePage()">Purchase</button>
+                    <button onclick="CancelOrderPage()">Cancel</button>
+                    <button onclick="OrderHistoryPage()">Order History</button>
+                    <button onclick="WalletRechargePage()">Wallet Recharge</button>
+                    <button onclick="ShowBalance()">Show Balance</button>
+                    <button onclick="LogOut()">Log out</button>
+                </form>
+            </div>
+            <div id="welcome"></div>
+            <div id="editDiv">
+                <form id="editForm" onsubmit="return false" action="">
+                    <label for="">To Add or Edit Medicine fill out this form</label><br>
+                    <label for="medicineName">Medicine Name</label>&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="medicineName" id="medicineName"
+                        placeholder="Enter Medicine Name">&nbsp;&nbsp;
+                    <label for="availableCount">Available Count</label>&nbsp;&nbsp;&nbsp;
+                    <input type="number" name="availableCount" id="availableCount"
+                        placeholder="Enter Available count">&nbsp;&nbsp;
+                    <label for="price">Price</label>&nbsp;&nbsp;&nbsp;
+                    <input type="number" name="price" id="price" placeholder="Enter Price">&nbsp;&nbsp;
+                    <label for="expiryDate">Expiry Date</label>&nbsp;&nbsp;&nbsp;
+                    <input type="date" name="expiryDate" id="expiryDate"><br>
+                    <div id="editButton"></div>
+                </form>
+            </div>
+            <div id="medicinesDiv"></div>
+            <div id="purchase">
+                <div id="purchaseDetails"></div>
+                <div id="requiredCount">
+                    <form id="countForm" onsubmit="return false" action="">
+                        <label for="count">Required Count</label>
+                        <input type="number" id="count" onkeyup="CheckCount()">&nbsp;&nbsp;&nbsp;<label for="count"
+                            id="countMessage"></label><br><br>
+                        <div id="purchaseButton"></div>
+                    </form>
+                </div>
+            </div>
+            <div id="walletRechargePage">
+                <form id="rechargeForm" onsubmit="return false" action="">
+                    <label for="amount">Enter the Amount to Recharge</label>&nbsp;&nbsp;
+                    <input type="text" name="amount" id="amount"><br>
+                    <button onclick="WalletRecharge()">Recharge</button>
+                </form>
+                <div id="walletRechargeMessage"></div>
+            </div>
+            <div id="showWalletBalance"></div>
+            <div id="orderHistoryPage"></div>
+            <div id="cancelOrderPage"></div>
+        </div>
+    </div>
+    <script src="JS/medicalstore.js"></script>
+</body>
+
+</html>

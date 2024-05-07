@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <link rel="stylesheet" href="CSS/stylesheet.css">
+</head>
+<body>
+    <div id="indexPage">
+        <h1>Library Management</h1>
+        <button onclick="signupPage()">Sign up</button>
+        <button onclick="loginPage()">Log in</button>
+    </div>
+    <div id="signupPage">
+        <h1>Sign Up</h1>
+        <form onsubmit="return false" id="signupForm" action="">
+            <table>
+                <tr>
+                    <th><label for="newUserName">Name</label></th>
+                    <td><input type="text" name="newUserName" id="newUserName" onkeyup="checkUserName('newUserName')"><label
+                            for="newUserName" id="newUserNameMessage"></label></td>
+                </tr>
+                <tr>
+                    <th><label for="male">Gender</label></th>
+                    <td>
+                        <input onkeyup="checkNewUserGender('newUserGender')" type="radio" id="male" value="Male"><label for="male">Male</label>&nbsp;&nbsp;
+                        <input onkeyup="checkNewUserGender('newUserGender')" type="radio" id="female" value="Female"><label for="female">Female</label>&nbsp;&nbsp;
+                        <label for="male" id="newUserGenderMessage"></label></td>
+                </tr>
+                <tr>
+                    <th><label for="newUserEmail">Email</label></th>
+                    <td><input type="text" name="newUserEmail" id="newUserEmail"
+                            onkeyup="checkUserEmail('newUserEmail')"><label for="newUserEmail"
+                            id="newUserEmailMessage"></label></td>
+                </tr>
+                <tr>
+                    <th><label for="newUserPhone">Phone Number</label></th>
+                    <td><input type="text" name="newUserPhone" id="newUserPhone"
+                            onkeyup="checkUserPhone('newUserPhone')"><label for="newUserPhone"
+                            id="newUserPhoneMessage"></label></td>
+                </tr>
+                <tr>
+                    <th><label for="newUserDepartment">Department</label></th>
+                    <td>
+                        <input onkeyup="checkNewUserDepartment('newUserDepartment')" type="radio" id="ece" value="ECE"><label for="ece">ECE</label>&nbsp;&nbsp;
+                        <input onkeyup="checkNewUserDepartment('newUserDepartment')" type="radio" id="cse" value="CSE"><label for="cse">CSE</label>&nbsp;&nbsp;
+                        <input onkeyup="checkNewUserDepartment('newUserDepartment')" type="radio" id="it" value="IT"><label for="it">IT</label>&nbsp;&nbsp;
+                        <input onkeyup="checkNewUserDepartment('newUserDepartment')" type="radio" id="eee" value="EEE"><label for="eee">EEE</label>&nbsp;&nbsp;
+                        <label for="newUserDepartment" id="newUserDepartmentMessage"></label></td>
+                </tr>
+                <tr>
+                    <th><label for="newUserPassword">Password</label></th>
+                    <td><input type="text" name="newUserPassword" id="newUserPassword"
+                            onkeyup="checkUserPassword('newUserPassword')"><label for="newUserPassword"
+                            id="newUserPasswordMessage"></label></td>
+                </tr>
+                <tr>
+                    <th><label for="confirmPassword">Confirm Password</label></th>
+                    <td><input type="password" name="confirmPassword" id="confirmPassword"
+                            onkeyup="confirmPassword('confirmPassword')"><label for="confirmPassword"
+                            id="confirmPasswordMessage"></label></td>
+                </tr>
+                <tr>
+                    <td><button onclick="indexPage()">Back</button></td>
+                    <td><button onclick="signup()">Sign Up</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="loginPage">
+        <h1>Login</h1>
+        <form onsubmit="return false" id="loginForm" action="">
+        <table>
+            <tr>
+                <th><label for="userMail">Email</label></th>
+                <td><input type="text" name="userMail" id="userMail" onkeyup="checkUserEmail('userMail')"><label
+                        for="userMail" id="userMailMessage"></label></td>
+            </tr>
+            <tr>
+                <th><label for="userPassword">Password</label></th>
+                <td><input type="password" name="userPassword" id="userPassword"><label for="userPassword"
+                        id="userPasswordMessage"></label></td>
+            </tr>
+            <tr>
+                <td><button onclick="indexPage()">Back</button></td>
+                <td><button onclick="login()">Login</button></td>
+            </tr>
+        </table>
+    </form>
+    </div>
+    <div id="homePage">
+        <button onclick="welcomePage()">Home</button>
+        <button onclick="bookDetailsPage()">Book Details</button>
+        <button onclick="borrowBookPage()">Borrow Book</button>
+        <button onclick="returnBookPage()">Return Book</button>
+        <button onclick="borrowHistoryPage()">Borrow History</button>
+        <button onclick="walletRechargePage()">Wallet Recharge</button>
+        <button onclick="showBalancePage()">Show Balance</button>
+        <button onclick="indexPage()">Log out</button>
+    </div>
+    <div id="welcomePage">
+        <h1 id="greet"></h1>
+    </div>
+    <div id="bookDetailsPage">
+        <h1>Book Details</h1>
+        <section id="editDiv">
+            <form onsubmit="return false" id="editForm">
+                <label for="bookName">To Add or Edit Book Please fill out this</label><br>
+                <label for="bookName">Book Name</label>&nbsp;&nbsp;&nbsp;
+                <input type="text" name="bookName" id="bookName" placeholder="Enter Book Name">&nbsp;&nbsp;
+                <label for="authorName">Author Name</label>&nbsp;&nbsp;&nbsp;
+                <input type="text" name="authorName" id="authorName" placeholder="Enter Author Name">&nbsp;&nbsp;
+                <label for="bookCount">Book Count</label>&nbsp;&nbsp;&nbsp;
+                <input type="text" name="bookCount" id="bookCount" placeholder="Enter Book Count"><br>
+                <section id="editButton"></section>
+            </form>
+        </section>
+        <section id="bookTableDiv"></section>
+    </div>
+    <div id="borrowBookPage"></div>
+    <div id="requiredCount">
+        <form id="countForm" onsubmit="return false" action="">
+            <label for="count">Enter Required Count</label>
+            <input placeholder="Enter book count" type="number" id="count" onkeyup="CheckCount()">&nbsp;&nbsp;&nbsp;<label for="count"
+                id="countMessage"></label><br><br>
+            <section id="borrowButton"></section>
+        </form>
+    </div>
+    <div id="returnBookPage"></div>
+    <div id="borrowHistoryPage"></div>
+    <div id="walletRechargePage">
+        <form onsubmit="return false" action="" id="rechargeForm">
+            <label for="amount">Enter the amount to Recharge</label>&nbsp;&nbsp;
+            <input type="text" name="amount" id="amount" placeholder="Enter the Amount"><br>
+            <button onclick="recharge()">Recharge</button>
+        </form>
+        <section id="rechargeMessage"></section>
+    </div>
+    <div id="showBalancePage">
+        <h1 id="balanceMessage"></h1>
+    </div>
+    <script src="JS/library.js"></script>
+</body>
+</html>
