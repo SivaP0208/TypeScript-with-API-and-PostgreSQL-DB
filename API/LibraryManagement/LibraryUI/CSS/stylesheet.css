@@ -6,3 +6,349 @@ body{
 body div:not(:first-child) {
     display: none;
 }
+#indexPage{
+    margin-top: 9em;
+    text-align: center;
+    font-size: 30px;
+    color: rgb(85, 1, 1);
+    text-shadow: 0px 4px 4px rgba(40, 40, 188, 0.571) ;
+}
+
+#indexPage button{
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    width: 8em;
+    border-radius: 15px;
+    padding: .7em;
+    color: rgb(43, 0, 255);
+    font-weight: 700;
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+#indexPage button:hover{
+    box-shadow: 2px 2px 5px rgb(85, 1, 1);;
+}
+#signupPage h1{
+    margin-top: 1.3em;
+    margin-bottom: 0.5em;
+    text-align: center;
+    font-size: 4em;
+    color: rgba(82, 9, 118, 0.808);
+    text-shadow: 0px 4px 4px rgba(40, 40, 188, 0.571) ;
+}
+#signupPage table{
+    margin-left: 22em;
+    line-height: 2.5em;
+    font-size: 1.5em;
+    text-align: left;
+    width: 65%;
+}
+#signupPage th{
+    width: 28%;
+}
+#signupPage input:not(.radio){
+    vertical-align: middle;
+    width: 13em;
+    height: 1.5em;
+    padding-left: 1em;
+    font-size: 20px;
+}
+#signupPage button{
+    width: 8em;
+    height: 2em;
+    font-size: 20px;
+    margin: 1.5em;
+    color: red;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#signupPage button:hover{
+    box-shadow: 2px 2px 5px rgb(82, 9, 118);
+}
+
+#loginPage h1{
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    text-align: center;
+    font-size: 4em;
+    color: rgba(82, 9, 118, 0.808);
+    text-shadow: 0px 4px 4px rgba(40, 40, 188, 0.571) ;
+}
+#loginPage table{
+    margin-left: 17em;
+    line-height: 2em;
+    font-size: 2em;
+    text-align: left;
+    width: 65%;
+}
+#loginPage th{
+    width: 28%;
+}
+#loginPage input{
+    vertical-align: middle;
+    width: 13em;
+    height: 1.5em;
+    padding-left: 1em;
+    font-size: 20px;
+}
+#loginPage button{
+    width: 8em;
+    height: 2em;
+    font-size: 20px;
+    margin: 1.5em;
+    color: red;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#loginPage button:hover{
+    box-shadow: 2px 2px 5px rgb(82, 9, 118);
+}
+#homePage{
+    padding-left:3em;
+    position: sticky;
+    top: 1.5em;
+}
+#homePage button{
+    width: 9em;
+    font-size: 20px;
+    margin-right: 1em;
+    height: 2em;
+    border: none;
+    background-color: rgba(255, 0, 0, 0.521);
+    font-weight: 500;
+    cursor: pointer;
+}
+#homePage button:hover{
+    background-color: rgba(255, 0, 0, 0.777);
+    color: rgb(255, 255, 255);
+}
+#greet{
+    text-align: center;
+    margin-top: 4em;
+    font-size: 4rem;
+    color: rgba(34, 4, 95, 0.86);
+}
+#bookDetailsPage h1{
+    margin-top: 2em;
+    text-align: center;
+}
+#bookDetailsPage table{
+    text-align: center;
+    width: 40%;
+    align-content: center;
+    font-size: 1.5em;
+    margin-left: 21em;
+    margin-top: 1em;
+}
+#bookDetailsPage th{
+    background-color: rgba(0, 255, 162, 0.755);
+    color: rgb(64, 0, 0);
+}
+#borrowBookPage h1{
+    margin-top: 2em;
+    text-align: center;
+}
+#borrowBookPage table{
+    text-align: center;
+    width: 50%;
+    align-content: center;
+    font-size: 1.5em;
+    margin-left: 18em;
+}
+#borrowBookPage table button{
+    width: 6.5em;
+    padding: .3em;
+    background-color: rgba(8, 0, 255, 0.704);
+    color: whitesmoke;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+#borrowBookPage table button:hover{
+    background-color: rgba(0, 0, 0, 0.922);
+    color: rgb(0, 213, 255);
+}
+#borrowBookPage th{
+    background-color: rgba(157, 0, 255, 0.345);
+    color: rgb(64, 0, 0);
+}
+#countForm{
+    margin-top: 2em;
+    margin-left: 14em;
+    font-size: 1.3em;
+}
+#countForm input{
+    margin-left: 1em;
+    font-size: .7em;
+    padding: .5em 1em;
+    height: 1em;
+}
+#countForm button{
+    width: 7em;
+    padding: .3em;
+    background-color: rgb(64, 0, 0);
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+#returnBookPage h1{
+    margin-top: 2em;
+    text-align: center;
+}
+#returnBookPage table{
+    width: 70%;
+    text-align: center;
+    align-content: center;
+    font-size: 1.5em;
+    margin-left: 10em;
+    margin-top: 1em;
+}
+#returnBookPage table button{
+    width: 4em;
+    padding: .3em;
+    background-color: red;
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+#returnBookPage table button:hover{
+    background-color: black;
+    color: red;
+}
+#returnBookPage th{
+    background-color: rgba(255, 251, 0, 0.5);
+    color: rgb(64, 0, 0);
+}
+#borrowHistoryPage h1{
+    margin-top: 2em;
+    text-align: center;
+}
+#borrowHistoryPage table{
+    width: 55%;
+    text-align: center;
+    align-content: center;
+    font-size: 1.5em;
+    margin-left: 16em;
+    margin-top: 1em;
+}
+#borrowHistoryPage th{
+    background-color: rgba(255, 251, 0, 0.5);
+    color: rgb(64, 0, 0);
+}
+#walletRechargePage{
+    font-size: 2em;
+    font-weight: 600;
+}
+#walletRechargePage input{
+    width: 9em;
+    margin-left: 1em;
+    font-size: .7em;
+    font-weight: 500;
+    padding: .2em ;
+    padding-left: .9em;
+    font-family:Arial, Helvetica, sans-serif;
+}
+#walletRechargePage button{
+    width: 11em;
+    padding: 1em;
+    margin-top: 3em;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 700;
+    background-color: rgb(4, 110, 105);
+    color: rgb(212, 255, 0);
+    cursor: pointer;
+}
+#walletRechargePage button:hover{
+    background-color: black;
+    color: yellow;
+}
+#rechargeMessage{
+    color: crimson;
+    font-size: 1.5rem;
+}
+#showBalancePage{
+    font-size: 1.5rem;
+    color: rgba(17, 2, 57, 0.903);
+}
+#editDiv{
+    font-size: 1.3em;
+    padding-left:22rem ;
+    line-height: 2em;
+}
+#addButton{
+    width: 6em;
+    padding: .5em;
+    font-size: 15px;
+    margin-top: 1em;
+    margin-left: 34em;
+    border: none;
+    border-radius: 3px;
+    font-weight: 700;
+    background-color: rgb(18, 4, 139);
+    color: rgb(212, 255, 0);
+    cursor: pointer;
+}
+.edit{
+    width: 5em;
+    padding: .5em;
+    font-size: 15px;
+    border: none;
+    border-radius: 3px;
+    font-weight: 700;
+    background-color: rgb(18, 4, 139);
+    color: rgb(212, 255, 0);
+    cursor: pointer;
+}
+.delete{
+    width: 5em;
+    padding: .5em;
+    font-size: 15px;
+    border: none;
+    border-radius: 3px;
+    font-weight: 700;
+    background-color: rgb(139, 4, 4);
+    color: rgb(255, 255, 252);
+    cursor: pointer;
+}
+#editDiv input{
+    padding-left: 1.5em;
+    height: 2em;
+    font-size: 15px;
+}
+#editDiv button{
+    width: 6em;
+    padding: .5em;
+    font-size: 15px;
+    border: none;
+    border-radius: 3px;
+    font-weight: 700;
+    background-color: rgb(0, 99, 12);
+    color: rgb(255, 255, 252);
+    cursor: pointer;
+}
+#exportButton{
+    width: 6em;
+    margin-left: 70rem;
+    padding: .5em;
+    font-size: 15px;
+    border: none;
+    border-radius: 3px;
+    font-weight: 700;
+    background-color: rgb(0, 99, 12);
+    color: rgb(255, 255, 252);
+    cursor: pointer;
+}

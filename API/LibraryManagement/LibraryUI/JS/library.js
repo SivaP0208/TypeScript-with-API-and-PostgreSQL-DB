@@ -175,14 +175,45 @@ function signupPage() {
     indexPage.style.display = "none";
     signupPage.style.display = "block";
 }
-function signUp() {
+function signup() {
     let newUserName = document.getElementById("newUserName");
     let newUserEmail = document.getElementById("newUserEmail");
     let newUserPhone = document.getElementById("newUserPhone");
     let newUserPassword = document.getElementById("newUserPassword");
+    let maleGender = document.getElementById("male");
+    let femaleGender = document.getElementById("female");
+    let ece = document.getElementById("ece");
+    let cse = document.getElementById("cse");
+    let it = document.getElementById("it");
+    let eee = document.getElementById("eee");
+    if (maleGender.checked) {
+        isNewUserGenderValid = true;
+        userGender = maleGender.value;
+    }
+    else if (femaleGender.checked) {
+        isNewUserGenderValid = true;
+        userGender = femaleGender.value;
+    }
+    if (ece.checked) {
+        isNewUserDepartmentValid = true;
+        userDepartment = ece.value;
+    }
+    else if (cse.checked) {
+        isNewUserDepartmentValid = true;
+        userDepartment = cse.value;
+    }
+    else if (it.checked) {
+        isNewUserDepartmentValid = true;
+        userDepartment = it.value;
+    }
+    else if (eee.checked) {
+        isNewUserDepartmentValid = true;
+        userDepartment = eee.value;
+    }
     if (isNewUserNameValid && isNewUserEmailValid && isNewUserPasswordValid && isNewUserPhoneValid && isNewUserDepartmentValid && isNewUserGenderValid) {
         const user = { userID: undefined, userName: newUserName.value.trim(), mailID: newUserEmail.value.trim(), password: newUserPassword.value.trim(), mobileNumber: newUserPhone.value.trim(), gender: userGender, department: userDepartment, walletBalance: 0 };
         addUser(user);
+        alert(`User Signed up Successfully`);
         indexPage();
     }
     else {
@@ -276,7 +307,7 @@ function bookDetailsPage() {
             });
         }
         else {
-            bookDetailsPage.innerHTML = `<h1>No Tickets Available</h1>`;
+            bookDetailsPage.innerHTML = `<h1>No Books Available</h1>`;
         }
     });
 }
@@ -308,7 +339,7 @@ function borrowBookPage() {
             });
         }
         else {
-            borrowBookPage.innerHTML = `<h1>No Tickets Available</h1>`;
+            borrowBookPage.innerHTML = `<h1>No Books Available</h1>`;
         }
     });
 }
@@ -323,6 +354,7 @@ function borrow(id) {
 function borrowBook(id) {
     return __awaiter(this, void 0, void 0, function* () {
         let requiredCount = document.getElementById("count");
+        let countForm = document.getElementById("countForm");
         let books = yield fetchBook();
         let borrows = yield fetchBorrow();
         for (var i = 0; i < books.length; i++) {
@@ -340,7 +372,7 @@ function borrowBook(id) {
                             addBorrow(borrowBook);
                             books[i].bookCount -= parseInt(requiredCount.value.trim());
                             updateBook(books[i].bookID, books[i]);
-                            alert(`${books[i].bookName}Book Borrowed Successfully`);
+                            alert(`${requiredCount.value.trim()} ${books[i].bookName} Book Borrowed Successfully`);
                         }
                         else {
                             alert(`You can have maximum of 3 Borrowed books.You're already borrowed books count is ${noOfBooksBorrowed} and Requested Count is ${requiredCount.value}, Which exceeds 3`);
@@ -353,16 +385,23 @@ function borrowBook(id) {
                 else {
                     var availableDate;
                     for (var j = 0; j < borrows.length; j++) {
-                        if (books[i].bookID.Equals(borrows[j].bookID)) {
-                            availableDate = new Date(borrows[i].borrowedDate.setDate(borrows[i].borrowedDate.getDate() + 15));
-                            alert(`${books[i].bookCount} Books only Available now. Balance Book will be available on ${availableDate.toISOString().substring(0, 10)}`);
-                            break;
+                        if (books[i].bookID === borrows[j].bookID) {
+                            if (borrows[j].status === "Borrowed") {
+                                availableDate = new Date(new Date(borrows[j].borrowedDate).setDate(new Date(borrows[j].borrowedDate).getDate() + 15));
+                                alert(`${books[i].bookCount} Books only Available now. Balance Book will be available on ${availableDate.toISOString().substring(0, 10)}`);
+                                break;
+                            }
+                            else {
+                                alert(`Required Book count is not available in Library. Available Book Count is ${books[i].bookCount}`);
+                            }
                         }
                     }
                 }
                 break;
             }
         }
+        countForm.reset();
+        borrowBookPage();
     });
 }
 function returnBookPage() {
@@ -399,7 +438,7 @@ function returnBookPage() {
                 if (borrows[i].userID === currentLoggedInUser.userID && borrows[i].status === "Borrowed") {
                     for (var j = 0; j < books.length; j++) {
                         if (books[j].bookID === borrows[i].bookID) {
-                            returnBookTable.innerHTML += `<tr><td>${books[j].bookName}</td><td>${borrows[i].borrowBookCount}</td><td>${borrows[i].borrowedDate.toString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].status}</td><td>${new Date(borrows[i].borrowedDate.setDate(borrows[i].borrowedDate.getDate() + 15)).toISOString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].paidFineAmount}</td><td><button onclick=\"returnBook('${borrows[i].borrowID}')\">return</button></td></tr>`;
+                            returnBookTable.innerHTML += `<tr><td>${books[j].bookName}</td><td>${borrows[i].borrowBookCount}</td><td>${borrows[i].borrowedDate.toString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].status}</td><td>${new Date(new Date(borrows[i].borrowedDate).setDate(new Date(borrows[i].borrowedDate).getDate() + 15)).toISOString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].paidFineAmount}</td><td><button onclick=\"returnBook('${borrows[i].borrowID}')\">return</button></td></tr>`;
                             break;
                         }
                     }
@@ -412,18 +451,65 @@ function returnBookPage() {
         }
     });
 }
+function borrowHistoryPage() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let welcomePage = document.getElementById("welcomePage");
+        let bookDetailsPage = document.getElementById("bookDetailsPage");
+        let borrowBookPage = document.getElementById("borrowBookPage");
+        let borrowHistoryPage = document.getElementById("borrowHistoryPage");
+        let walletRechargePage = document.getElementById("walletRechargePage");
+        let showBalancePage = document.getElementById("showBalancePage");
+        let returnBookPage = document.getElementById("returnBookPage");
+        let requiredCountDiv = document.getElementById("requiredCount");
+        welcomePage.style.display = "none";
+        bookDetailsPage.style.display = "none";
+        borrowHistoryPage.style.display = "block";
+        borrowBookPage.style.display = "none";
+        walletRechargePage.style.display = "none";
+        showBalancePage.style.display = "none";
+        requiredCountDiv.style.display = "none";
+        returnBookPage.style.display = "none";
+        let isUserBorrowedBook = false;
+        let borrows = yield fetchBorrow();
+        let books = yield fetchBook();
+        borrows.forEach(element => {
+            if (element.userID === currentLoggedInUser.userID) {
+                isUserBorrowedBook = true;
+            }
+        });
+        borrowHistoryPage.innerHTML = "null";
+        if (isUserBorrowedBook) {
+            borrowHistoryPage.innerHTML = `<h1>Borrow History</h1><button onclick=\"exportTableToCSV()\" id=\"exportButton\">Export</button><table border=\"2px\" cellpadding=\"8px\" id=\"borrowHistoryTable\"><tr><th>Book Name</th><th>Borrow Book Count</th><th>Borrowed Date</th><th>Status</th><th>Paid Fine Amount</th></tr></table>`;
+            let borrowHistoryTable = document.getElementById("borrowHistoryTable");
+            for (var i = 0; i < borrows.length; i++) {
+                if (borrows[i].userID === currentLoggedInUser.userID) {
+                    for (var j = 0; j < books.length; j++) {
+                        if (books[j].bookID === borrows[i].bookID) {
+                            borrowHistoryTable.innerHTML += `<tr><td>${books[j].bookName}</td><td>${borrows[i].borrowBookCount}</td><td>${borrows[i].borrowedDate.toString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].status}</td><td>${borrows[i].paidFineAmount}</td></tr>`;
+                            break;
+                        }
+                    }
+                }
+            }
+            ;
+        }
+        else {
+            borrowHistoryPage.innerHTML = `<h1>No Books are Borrowed</h1>`;
+        }
+    });
+}
 function returnBook(id) {
     return __awaiter(this, void 0, void 0, function* () {
         let borrows = yield fetchBorrow();
         let books = yield fetchBook();
         for (var i = 0; i < borrows.length; i++) {
             if (borrows[i].borrowID === Number(id)) {
-                var returnDate = new Date(borrows[i].borrowedDate.setDate(borrows[i].borrowedDate.getDate() + 15));
+                var returnDate = new Date(new Date(borrows[i].borrowedDate).setDate(new Date(borrows[i].borrowedDate).getDate() + 15));
                 if (returnDate < new Date()) {
                     const currentDate = new Date().getTime();
                     var timeDiff = currentDate - returnDate.getTime();
                     var days = Math.round(timeDiff / (1000 * 60 * 60 * 24));
-                    var fineAmount = days;
+                    var fineAmount = days * borrows[i].borrowBookCount;
                     if (currentLoggedInUser.walletBalance >= fineAmount) {
                         currentLoggedInUser.walletBalance -= fineAmount;
                         updateUser(currentLoggedInUser.userID, currentLoggedInUser);
@@ -440,7 +526,7 @@ function returnBook(id) {
                         }
                     }
                     else {
-                        alert(`Insufficient Balance to pay Fine Amount. Please recharge and proceed`);
+                        alert(`Insufficient Balance to pay Fine Amount ${fineAmount} to return Book, Please recharge and proceed`);
                     }
                 }
                 else {
@@ -458,6 +544,7 @@ function returnBook(id) {
                 break;
             }
         }
+        returnBookPage();
     });
 }
 function walletRechargePage() {
@@ -486,13 +573,13 @@ function recharge() {
     if (parseInt(amount.value) > 0) {
         currentLoggedInUser.walletBalance += parseInt(amount.value);
         updateUser(currentLoggedInUser.userID, currentLoggedInUser);
-        rechargeMessage.innerHTML = `<h1>Wallet Recharged with amount ${amount.value} ...</h1>`;
+        rechargeMessage.innerHTML = `<h1>Wallet Recharged with amount ${amount.value} Rs.</h1>`;
         rechargeMessage.style.display = "block";
-        rechargeForm.reset();
     }
     else {
         alert("Invalid Amount Please enter valid Amount");
     }
+    rechargeForm.reset();
 }
 function showBalancePage() {
     let welcomePage = document.getElementById("welcomePage");
@@ -535,7 +622,7 @@ function editDiv(id) {
         }
     });
 }
-function EditDetails(id) {
+function editDetails(id) {
     return __awaiter(this, void 0, void 0, function* () {
         let localBookName = document.getElementById("bookName");
         let localAuthorName = document.getElementById("authorName");
@@ -646,7 +733,7 @@ function checkUserPassword(id) {
         newUserPasswordMessage.style.verticalAlign = "middle";
     }
 }
-function confirmPassword(id) {
+function confirmPass(id) {
     let confirmPassword = document.getElementById(id);
     let confirmPasswordMessage = document.getElementById(id + "Message");
     if (userPassword === confirmPassword.value.trim()) {
@@ -732,5 +819,27 @@ function CheckCount() {
         countMessage.style.color = "red";
         countMessage.style.fontSize = "20px";
     }
+}
+function exportTableToCSV() {
+    var csv = [];
+    var rows = document.querySelectorAll("#borrowHistoryTable tr");
+    for (var i = 0; i < rows.length; i++) {
+        var row = [];
+        var columns = rows[i].querySelectorAll("#borrowHistoryTable td,th");
+        for (var j = 0; j < columns.length; j++) {
+            row.push(columns[j].innerHTML);
+        }
+        csv.push(row.join(","));
+    }
+    downloadCSV(csv.join("\n"), "BorrowHistory.csv");
+}
+function downloadCSV(csv, filename) {
+    var csvFile = new Blob([csv], { type: "text/csv" });
+    var downloadLink = document.createElement("a");
+    downloadLink.download = filename;
+    downloadLink.href = URL.createObjectURL(csvFile);
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
 }
 //# sourceMappingURL=library.js.map

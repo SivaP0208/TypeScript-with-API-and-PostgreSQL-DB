@@ -74,24 +74,28 @@
                 </form>
             </div>
             <div id="welcome"></div>
-            <div id="editDiv">
-                <form id="editForm" onsubmit="return false" action="">
-                    <label for="">To Add or Edit Medicine fill out this form</label><br>
-                    <label for="medicineName">Medicine Name</label>&nbsp;&nbsp;&nbsp;
-                    <input type="text" name="medicineName" id="medicineName"
-                        placeholder="Enter Medicine Name">&nbsp;&nbsp;
-                    <label for="availableCount">Available Count</label>&nbsp;&nbsp;&nbsp;
-                    <input type="number" name="availableCount" id="availableCount"
-                        placeholder="Enter Available count">&nbsp;&nbsp;
-                    <label for="price">Price</label>&nbsp;&nbsp;&nbsp;
-                    <input type="number" name="price" id="price" placeholder="Enter Price">&nbsp;&nbsp;
-                    <label for="expiryDate">Expiry Date</label>&nbsp;&nbsp;&nbsp;
-                    <input type="date" name="expiryDate" id="expiryDate"><br>
-                    <div id="editButton"></div>
-                </form>
+            <div id="medicinesDiv">
+                <h1>Medicine Details</h1>
+                <section id="editDiv">
+                    <form id="editForm" onsubmit="return false" action="">
+                        <label for="">To Add or Edit Medicine fill out this form</label><br>
+                        <label for="medicineName">Medicine Name</label>&nbsp;&nbsp;&nbsp;
+                        <input type="text" name="medicineName" id="medicineName"
+                            placeholder="Enter Medicine Name">&nbsp;&nbsp;
+                        <label for="availableCount">Available Count</label>&nbsp;&nbsp;&nbsp;
+                        <input type="number" name="availableCount" id="availableCount"
+                            placeholder="Enter Available count">&nbsp;&nbsp;
+                        <label for="price">Price</label>&nbsp;&nbsp;&nbsp;
+                        <input type="number" name="price" id="price" placeholder="Enter Price">&nbsp;&nbsp;
+                        <label for="expiryDate">Expiry Date</label>&nbsp;&nbsp;&nbsp;
+                        <input type="date" name="expiryDate" id="expiryDate"><br>
+                        <div id="editButton"></div>
+                    </form>
+                </section>
+                <section id="medicineDetailsTable"></section>
             </div>
-            <div id="medicinesDiv"></div>
             <div id="purchase">
+                <h1>Purchase Medicine</h1>
                 <div id="purchaseDetails"></div>
                 <div id="requiredCount">
                     <form id="countForm" onsubmit="return false" action="">

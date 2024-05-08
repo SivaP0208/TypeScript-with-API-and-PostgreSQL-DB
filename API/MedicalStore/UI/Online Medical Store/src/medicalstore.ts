@@ -229,16 +229,17 @@ async function MedicineDetails() {
     cancelOrderPage.style.display = "none";
     let editDiv = document.getElementById("editDiv") as HTMLDivElement;
     editDiv.style.display = "none";
+    let medicineTable=document.getElementById("medicineDetailsTable") as HTMLElement;
 
-    medicinesDiv.innerHTML = "null";
-    medicinesDiv.innerHTML = "<br><button onclick=\"AddMedicineDiv()\" id=\"AddButton\">Add Medicine</button><table cellpadding=\"5px\" border=\"2px\" id=\"medicineDetails\"><tr><th>Medicine Name</th><th>Available Count</th><th>Price</th><th>Date of Expiry</th><th>Action</th></tr></table>";
+    medicineTable.innerHTML = "null";
+    medicineTable.innerHTML = "<button onclick=\"AddMedicineDiv()\" id=\"AddButton\">Add Medicine</button><table cellpadding=\"5px\" border=\"2px\" id=\"medicineDetails\"><tr><th>Medicine Name</th><th>Available Count</th><th>Price</th><th>Date of Expiry</th><th>Action</th></tr></table>";
 
     let addButton = document.getElementById("AddButton") as HTMLButtonElement;
     addButton.style.display = "block";
-    let medicineTable = document.getElementById("medicineDetails") as HTMLTableElement;
+    let medicineDetailsTable = document.getElementById("medicineDetails") as HTMLTableElement;
     var medicine = await fetchMedicine();
     medicine.forEach(element => {
-        medicineTable.innerHTML += `<tr><td>${element.medicineName}</td><td>${element.availableCount}</td><td>${element.price}</td><td>${((element.dateOfExpiry.toString()).slice(0,10)).split('-').reverse().join('/')}</td><td><button onclick=\"EditDiv(${element.medicineID})\" class=\"edit\" >Edit</button>&nbsp;&nbsp;<button class=\"delete\" onclick=\"Delete(${element.medicineID})\" >Delete</button></td></tr>`;
+        medicineDetailsTable.innerHTML += `<tr><td>${element.medicineName}</td><td>${element.availableCount}</td><td>${element.price}</td><td>${((element.dateOfExpiry.toString()).slice(0,10)).split('-').reverse().join('/')}</td><td><button onclick=\"EditDiv(${element.medicineID})\" class=\"edit\" >Edit</button>&nbsp;&nbsp;<button class=\"delete\" onclick=\"Delete(${element.medicineID})\" >Delete</button></td></tr>`;
     });
 }
 
@@ -511,7 +512,7 @@ async function OrderHistoryPage() {
 
     if (isOrdered) {
         orderHistoryPage.innerHTML = "null";
-        orderHistoryPage.innerHTML = "<table cellpadding:\"5px\"; border=\"2px\" id=\"orderHistory\"><tr><th>Order ID</th><th>Medicine ID</th><th>Purchased Count</th><th>Total Price</th><th>Ordered Date</th><th>Order Status</th></tr></table>";
+        orderHistoryPage.innerHTML = "<h1>Order History</h1><button onclick=\"exportTableToCSV()\" id=\"exportButton\" >Export</button><table cellpadding:\"5px\"; border=\"2px\" id=\"orderHistory\"><tr><th>Order ID</th><th>Medicine ID</th><th>Purchased Count</th><th>Total Price</th><th>Ordered Date</th><th>Order Status</th></tr></table>";
 
         let orderHistoryTable = document.getElementById("orderHistory") as HTMLTableElement;
         orders.forEach(element => {
@@ -554,7 +555,7 @@ async function CancelOrderPage() {
 
     if (isOrdered) {
         cancelOrderPage.innerHTML = "null";
-        cancelOrderPage.innerHTML = "<table border=\"2px\" id=\"cancelOrder\"><tr><th>Order ID</th><th>Medicine ID</th><th>Purchased Count</th><th>Total Price</th><th>Ordered Date</th><th>Order Status</th><th>Action</th></tr>";
+        cancelOrderPage.innerHTML = "<h1>Cancel Order</h1><table border=\"2px\" id=\"cancelOrder\"><tr><th>Order ID</th><th>Medicine ID</th><th>Purchased Count</th><th>Total Price</th><th>Ordered Date</th><th>Order Status</th><th>Action</th></tr>";
 
         let orderHistoryTable = document.getElementById("cancelOrder") as HTMLTableElement;
 
@@ -704,4 +705,29 @@ function LogOut(){
     mainPage.style.placeContent="center"
     signUpForm.reset();
     signinForm.reset();
+}
+
+function exportTableToCSV(){
+    var csv=[];
+    var rows=document.querySelectorAll("#orderHistory tr");
+    for(var i=0;i<rows.length;i++){
+        var row=[];
+        var columns=rows[i].querySelectorAll("#orderHistory td,th");
+        for(var j=0;j<columns.length;j++){
+            row.push(columns[j].innerHTML);
+        }
+        csv.push(row.join(","));
+    }
+    downloadCSV(csv.join("\n"),"OrderHistory.csv");
+}
+
+function downloadCSV(csv:string,filename:string){
+    var csvFile = new Blob([csv],{type:"text/csv"});
+    var downloadLink = document.createElement("a");
+
+    downloadLink.download = filename;
+    downloadLink.href = URL.createObjectURL(csvFile);
+    downloadLink.style.display="none";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
 }

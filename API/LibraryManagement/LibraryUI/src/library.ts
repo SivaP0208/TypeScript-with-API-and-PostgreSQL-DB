@@ -190,15 +190,50 @@ function signupPage() {
     signupPage.style.display = "block";
 }
 
-function signUp() {
+function signup() {
     let newUserName = document.getElementById("newUserName") as HTMLInputElement;
     let newUserEmail = document.getElementById("newUserEmail") as HTMLInputElement;
     let newUserPhone = document.getElementById("newUserPhone") as HTMLInputElement;
     let newUserPassword = document.getElementById("newUserPassword") as HTMLInputElement;
+    let maleGender = document.getElementById("male") as HTMLInputElement;
+    let femaleGender = document.getElementById("female") as HTMLInputElement;
+    let ece = document.getElementById("ece") as HTMLInputElement;
+    let cse = document.getElementById("cse") as HTMLInputElement;
+    let it = document.getElementById("it") as HTMLInputElement;
+    let eee = document.getElementById("eee") as HTMLInputElement;
 
+    // Checking whether Gender is Checked or Not
+    if (maleGender.checked) {
+        isNewUserGenderValid = true;
+        userGender = maleGender.value;
+    }
+    else if (femaleGender.checked) {
+        isNewUserGenderValid = true;
+        userGender = femaleGender.value;
+    }
+
+    // Checking whether Department is Checked or Not
+    if (ece.checked) {
+        isNewUserDepartmentValid = true;
+        userDepartment = ece.value;
+    }
+    else if (cse.checked) {
+        isNewUserDepartmentValid = true;
+        userDepartment = cse.value;
+    }
+    else if (it.checked) {
+        isNewUserDepartmentValid = true;
+        userDepartment = it.value;
+    }
+    else if (eee.checked) {
+        isNewUserDepartmentValid = true;
+        userDepartment = eee.value;
+    }
+    
     if (isNewUserNameValid && isNewUserEmailValid && isNewUserPasswordValid && isNewUserPhoneValid && isNewUserDepartmentValid && isNewUserGenderValid) {
         const user: UserDetails = { userID: undefined, userName: newUserName.value.trim(), mailID: newUserEmail.value.trim(), password: newUserPassword.value.trim(), mobileNumber: newUserPhone.value.trim(), gender: userGender, department: userDepartment, walletBalance: 0 };
         addUser(user);
+        alert(`User Signed up Successfully`);
         indexPage();
     }
     else {
@@ -301,7 +336,7 @@ async function bookDetailsPage() {
         });
     }
     else {
-        bookDetailsPage.innerHTML = `<h1>No Tickets Available</h1>`;
+        bookDetailsPage.innerHTML = `<h1>No Books Available</h1>`;
     }
 }
 
@@ -335,7 +370,7 @@ async function borrowBookPage() {
         });
     }
     else {
-        borrowBookPage.innerHTML = `<h1>No Tickets Available</h1>`;
+        borrowBookPage.innerHTML = `<h1>No Books Available</h1>`;
     }
 }
 
@@ -353,6 +388,7 @@ function borrow(id: number) {
 
 async function borrowBook(id: number) {
     let requiredCount = document.getElementById("count") as HTMLInputElement;
+    let countForm = document.getElementById("countForm") as HTMLFormElement;
     let books = await fetchBook();
     let borrows = await fetchBorrow();
     for (var i = 0; i < books.length; i++) {
@@ -371,8 +407,7 @@ async function borrowBook(id: number) {
                         books[i].bookCount -= parseInt(requiredCount.value.trim());
                         updateBook(books[i].bookID, books[i]);
 
-                        alert(`${books[i].bookName}Book Borrowed Successfully`);
-
+                        alert(`${requiredCount.value.trim()} ${books[i].bookName} Book Borrowed Successfully`);
                     }
                     else {
                         alert(`You can have maximum of 3 Borrowed books.You're already borrowed books count is ${noOfBooksBorrowed} and Requested Count is ${requiredCount.value}, Which exceeds 3`);
@@ -385,16 +420,22 @@ async function borrowBook(id: number) {
             else {
                 var availableDate: Date;
                 for (var j = 0; j < borrows.length; j++) {
-                    if (books[i].bookID.Equals(borrows[j].bookID)) {
-                        availableDate = new Date(borrows[i].borrowedDate.setDate(borrows[i].borrowedDate.getDate() + 15));
-                        alert(`${books[i].bookCount} Books only Available now. Balance Book will be available on ${availableDate.toISOString().substring(0, 10)}`);
-                        break;
+                    if (books[i].bookID === borrows[j].bookID) {
+                        if (borrows[j].status === "Borrowed") {
+                            availableDate = new Date(new Date(borrows[j].borrowedDate).setDate(new Date(borrows[j].borrowedDate).getDate() + 15))
+                            alert(`${books[i].bookCount} Books only Available now. Balance Book will be available on ${availableDate.toISOString().substring(0, 10)}`);
+                            break;
+                        } else {
+                            alert(`Required Book count is not available in Library. Available Book Count is ${books[i].bookCount}`);
+                        }
                     }
                 }
             }
             break;
         }
     }
+    countForm.reset();
+    borrowBookPage();
 }
 
 async function returnBookPage() {
@@ -433,7 +474,7 @@ async function returnBookPage() {
             if (borrows[i].userID === currentLoggedInUser.userID && borrows[i].status === "Borrowed") {
                 for (var j = 0; j < books.length; j++) {
                     if (books[j].bookID === borrows[i].bookID) {
-                        returnBookTable.innerHTML += `<tr><td>${books[j].bookName}</td><td>${borrows[i].borrowBookCount}</td><td>${borrows[i].borrowedDate.toString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].status}</td><td>${new Date(borrows[i].borrowedDate.setDate(borrows[i].borrowedDate.getDate() + 15)).toISOString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].paidFineAmount}</td><td><button onclick=\"returnBook('${borrows[i].borrowID}')\">return</button></td></tr>`;
+                        returnBookTable.innerHTML += `<tr><td>${books[j].bookName}</td><td>${borrows[i].borrowBookCount}</td><td>${borrows[i].borrowedDate.toString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].status}</td><td>${new Date(new Date(borrows[i].borrowedDate).setDate(new Date(borrows[i].borrowedDate).getDate() + 15)).toISOString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].paidFineAmount}</td><td><button onclick=\"returnBook('${borrows[i].borrowID}')\">return</button></td></tr>`;
                         break;
                     }
                 }
@@ -445,18 +486,67 @@ async function returnBookPage() {
     }
 }
 
+async function borrowHistoryPage() {
+    let welcomePage = document.getElementById("welcomePage") as HTMLDivElement;
+    let bookDetailsPage = document.getElementById("bookDetailsPage") as HTMLDivElement;
+    let borrowBookPage = document.getElementById("borrowBookPage") as HTMLDivElement;
+    let borrowHistoryPage = document.getElementById("borrowHistoryPage") as HTMLDivElement;
+    let walletRechargePage = document.getElementById("walletRechargePage") as HTMLDivElement;
+    let showBalancePage = document.getElementById("showBalancePage") as HTMLDivElement;
+    let returnBookPage = document.getElementById("returnBookPage") as HTMLDivElement;
+    let requiredCountDiv = document.getElementById("requiredCount") as HTMLDivElement;
+
+    welcomePage.style.display = "none";
+    bookDetailsPage.style.display = "none";
+    borrowHistoryPage.style.display = "block";
+    borrowBookPage.style.display = "none";
+    walletRechargePage.style.display = "none";
+    showBalancePage.style.display = "none";
+    requiredCountDiv.style.display = "none";
+    returnBookPage.style.display = "none";
+
+    let isUserBorrowedBook = false;
+    let borrows = await fetchBorrow();
+    let books = await fetchBook();
+    borrows.forEach(element => {
+        if (element.userID === currentLoggedInUser.userID) {
+            isUserBorrowedBook = true;
+        }
+    });
+
+    borrowHistoryPage.innerHTML = "null";
+    if (isUserBorrowedBook) {
+        borrowHistoryPage.innerHTML = `<h1>Borrow History</h1><button onclick=\"exportTableToCSV()\" id=\"exportButton\">Export</button><table border=\"2px\" cellpadding=\"8px\" id=\"borrowHistoryTable\"><tr><th>Book Name</th><th>Borrow Book Count</th><th>Borrowed Date</th><th>Status</th><th>Paid Fine Amount</th></tr></table>`;
+
+        let borrowHistoryTable = document.getElementById("borrowHistoryTable") as HTMLTableElement;
+        for (var i = 0; i < borrows.length; i++) {
+            if (borrows[i].userID === currentLoggedInUser.userID) {
+                for (var j = 0; j < books.length; j++) {
+                    if (books[j].bookID === borrows[i].bookID) {
+                        borrowHistoryTable.innerHTML += `<tr><td>${books[j].bookName}</td><td>${borrows[i].borrowBookCount}</td><td>${borrows[i].borrowedDate.toString().substring(0, 10).split('-').reverse().join('/')}</td><td>${borrows[i].status}</td><td>${borrows[i].paidFineAmount}</td></tr>`;
+                        break;
+                    }
+                }
+            }
+        };
+    }
+    else {
+        borrowHistoryPage.innerHTML = `<h1>No Books are Borrowed</h1>`;
+    }
+}
+
 async function returnBook(id: number) {
     let borrows = await fetchBorrow();
     let books = await fetchBook();
 
     for (var i = 0; i < borrows.length; i++) {
         if (borrows[i].borrowID === Number(id)) {
-            var returnDate: Date = new Date(borrows[i].borrowedDate.setDate(borrows[i].borrowedDate.getDate() + 15));
+            var returnDate: Date = new Date(new Date(borrows[i].borrowedDate).setDate(new Date(borrows[i].borrowedDate).getDate() + 15))
             if (returnDate < new Date()) {
                 const currentDate = new Date().getTime();
                 var timeDiff = currentDate - returnDate.getTime();
                 var days = Math.round(timeDiff / (1000 * 60 * 60 * 24));
-                var fineAmount = days;
+                var fineAmount = days * borrows[i].borrowBookCount;
                 if (currentLoggedInUser.walletBalance >= fineAmount) {
                     currentLoggedInUser.walletBalance -= fineAmount;
                     updateUser(currentLoggedInUser.userID, currentLoggedInUser);
@@ -475,7 +565,7 @@ async function returnBook(id: number) {
                     }
                 }
                 else {
-                    alert(`Insufficient Balance to pay Fine Amount. Please recharge and proceed`);
+                    alert(`Insufficient Balance to pay Fine Amount ${fineAmount} to return Book, Please recharge and proceed`);
                 }
             }
             else {
@@ -493,6 +583,7 @@ async function returnBook(id: number) {
             break;
         }
     }
+    returnBookPage();
 }
 
 function walletRechargePage() {
@@ -523,13 +614,13 @@ function recharge() {
     if (parseInt(amount.value) > 0) {
         currentLoggedInUser.walletBalance += parseInt(amount.value);
         updateUser(currentLoggedInUser.userID, currentLoggedInUser);
-        rechargeMessage.innerHTML = `<h1>Wallet Recharged with amount ${amount.value} ...</h1>`;
+        rechargeMessage.innerHTML = `<h1>Wallet Recharged with amount ${amount.value} Rs.</h1>`;
         rechargeMessage.style.display = "block";
-        rechargeForm.reset();
     }
     else {
         alert("Invalid Amount Please enter valid Amount");
     }
+    rechargeForm.reset();
 }
 
 function showBalancePage() {
@@ -567,28 +658,28 @@ async function editDiv(id: number) {
     addButton.style.display = "none";
 
     let books = await fetchBook();
-    for(var i=0;i<books.length;i++){
-        if(books[i].bookID===Number(id)){
-            localBookName.value=books[i].bookName;
-            localAuthorName.value=books[i].authorName;
-            localBookCount.value=books[i].bookCount.toString();
+    for (var i = 0; i < books.length; i++) {
+        if (books[i].bookID === Number(id)) {
+            localBookName.value = books[i].bookName;
+            localAuthorName.value = books[i].authorName;
+            localBookCount.value = books[i].bookCount.toString();
         }
     }
 }
 
-async function EditDetails(id: number) {
+async function editDetails(id: number) {
     let localBookName = document.getElementById("bookName") as HTMLInputElement;
     let localAuthorName = document.getElementById("authorName") as HTMLInputElement;
     let localBookCount = document.getElementById("bookCount") as HTMLInputElement;
     let editForm = document.getElementById("editForm") as HTMLFormElement;
 
     let books = await fetchBook();
-    for(var i=0;i<books.length;i++){
-        if(books[i].bookID===Number(id)){
-            books[i].bookName=localBookName.value.trim();
-            books[i].authorName=localAuthorName.value.trim();
-            books[i].bookCount=parseInt(localBookCount.value.trim());
-            updateBook(id,books[i]);
+    for (var i = 0; i < books.length; i++) {
+        if (books[i].bookID === Number(id)) {
+            books[i].bookName = localBookName.value.trim();
+            books[i].authorName = localAuthorName.value.trim();
+            books[i].bookCount = parseInt(localBookCount.value.trim());
+            updateBook(id, books[i]);
             alert("Details Edited");
             editForm.reset();
             bookDetailsPage();
@@ -704,7 +795,7 @@ function checkUserPassword(id: string) {
     }
 }
 
-function confirmPassword(id: string) {
+function confirmPass(id: string) {
     let confirmPassword = document.getElementById(id) as HTMLInputElement;
     let confirmPasswordMessage = document.getElementById(id + "Message") as HTMLLabelElement;
 
@@ -796,3 +887,29 @@ function CheckCount() {
         countMessage.style.fontSize = "20px";
     }
 }
+
+function exportTableToCSV(){
+    var csv=[];
+    var rows=document.querySelectorAll("#borrowHistoryTable tr");
+    for(var i=0;i<rows.length;i++){
+        var row=[];
+        var columns=rows[i].querySelectorAll("#borrowHistoryTable td,th");
+        for(var j=0;j<columns.length;j++){
+            row.push(columns[j].innerHTML);
+        }
+        csv.push(row.join(","));
+    }
+    downloadCSV(csv.join("\n"),"BorrowHistory.csv");
+}
+
+function downloadCSV(csv:string,filename:string){
+    var csvFile = new Blob([csv],{type:"text/csv"});
+    var downloadLink = document.createElement("a");
+
+    downloadLink.download = filename;
+    downloadLink.href = URL.createObjectURL(csvFile);
+    downloadLink.style.display="none";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+}
+
